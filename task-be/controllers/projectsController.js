@@ -1,3 +1,5 @@
+// controllers/projectController.js
+
 const Project = require("../models/projectModel");
 const User = require("../models/userModel");
 
@@ -20,23 +22,12 @@ const createProject = async (req, res) => {
 
 const getAllProjects = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
     const projects = await Project.find({
       owner: req.body.userId,
-      deleted: { $ne: true }, // Exclude soft deleted projects
-    })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
-
+    }).sort({ createdAt: -1 });
     res.send({
       success: true,
       data: projects,
-      currentPage: page,
-      totalPages: Math.ceil(projects.length / limit),
     });
   } catch (error) {
     res.send({
@@ -66,11 +57,10 @@ const getProjectById = async (req, res) => {
 const getProjectsByRole = async (req, res) => {
   try {
     const userId = req.body.userId;
-    const projects = await Project.find({
-      "members.user": userId,
-      deleted: { $ne: true },
-    })
-      .sort({ createdAt: -1 })
+    const projects = await Project.find({ "members.user": userId })
+      .sort({
+        createdAt: -1,
+      })
       .populate("owner");
     res.send({
       success: true,
