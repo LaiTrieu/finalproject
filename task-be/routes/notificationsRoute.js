@@ -8,12 +8,12 @@ const authMiddleware = require("../middlewares/authMiddleware");
 router.post("/add-notification", authMiddleware, notificationController.addNotification);
 
 // Get all notifications
-router.get("/get-all-notifications", authMiddleware, notificationController.getAllNotifications);
+router.get("/all-notifications", authMiddleware, notificationController.getAllNotifications);
 
 // Mark notification as read
 router.post("/mark-as-read", authMiddleware, notificationController.markAsRead);
 
 // Delete all notifications
-router.delete("/delete-all-notifications", authMiddleware, notificationController.deleteAllNotifications);
+router.delete("/remove-all-notifications", authMiddleware, notificationController.deleteAllNotifications);
 
 module.exports = router;

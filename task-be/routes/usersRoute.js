@@ -11,6 +11,6 @@ router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
 
 // Get logged in user
-router.get("/get-logged-in-user", authMiddleware, userController.getLoggedInUser);
+router.get("/logged-in-user", authMiddleware, userController.getLoggedInUser);
 
 module.exports = router;
